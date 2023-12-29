@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<%= '/styles.css' %>">
+    <title>Deverce - Inicio</title>
+</head>
+<body>
+    <div class="discord-container">
+        <header class="discord-header">
+            <div id="welcome">
+                <i class="fas fa-code"></i>
+                <h1>Bienvenido a Deverce</h1>
+            </div>
+        </header>
+
+        <nav class="discord-nav">
+            <ul>
+                <li>
+                    <% if (user) { %>
+                        <div class="user-info">
+                            <div class="user-container">
+                                <img src="https://cdn.discordapp.com/avatars/<%= encodeURIComponent(user.id) %>/<%= encodeURIComponent(user.avatar) %>.png" alt="Avatar" class="user-avatar">
+                                <button class="user-username" onclick="toggleUserMenu()">☰ <%= user.username %></button>
+                            </div>
+                            <div class="user-menu" id="userMenu">
+                                <a href="/perfil">Ir al Perfil</a>
+                                <a href="/adquirir-membresia">Adquirir Membresía Dev+</a>
+                                <a href="/unirse-discord">Unirse a nuestro Discord</a>
+                                <a href="/logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </li>                
+                <li><a href="/" class="home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/servicios" class="servicios"><i class="fas fa-cogs"></i> Servicios</a></li>
+                <li><a href="/portafolio" class="portafolio"><i class="fas fa-images"></i> Portafolio</a></li>
+                <li><a href="/blog" class="blog"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="/contacto" class="contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                <li id="auth-buttons">
+                    <% if (user) { %>
+                        <a href="/logout" class="login-button"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    <% } else { %>
+                        <a href="/auth/discord" class="login-button"><i class="fab fa-discord"></i> Iniciar sesión</a>
+                    <% } %>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="discord-content">
+            <div class="hero-section">
+                <h2>Transformamos Ideas en Realidad</h2>
+                <p>En Deverce, combinamos creatividad y tecnología para ofrecer soluciones digitales únicas. Desde el diseño hasta el desarrollo, estamos aquí para convertir tus ideas en experiencias extraordinarias.</p>
+                <a href="/servicios" class="cta-button">Descubre Nuestros Servicios</a>
+            </div>
+
+            <div class="about-section">
+                <h2>Conoce a Alejo y Gonza</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Somos Alejo y Gonza, los fundadores de Deverce. Con una pasión compartida por la innovación, comenzamos este viaje para ofrecer servicios excepcionales que van más allá de las expectativas.</p>
+                        <p>Explora nuestro sitio para conocer más sobre nuestra historia y filosofía de trabajo.</p>
+                        <a href="/sobre-nosotros" class="cta-button">Sobre Nosotros</a>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://via.placeholder.com/400" alt="Alejo y Gonza">
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-section">
+                <h2>Nuestros Servicios Destacados</h2>
+                <div class="service-cards">
+                    <!-- Puedes agregar aquí tarjetas de servicios con imágenes y descripciones -->
+                </div>
+                <a href="/servicios" class="cta-button">Ver Todos los Servicios</a>
+            </div>
+        </section>
+
+        <footer class="discord-footer">
+            <p>&copy; 2023 Deverce. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathName = window.location.pathname;
+            const navLinks = document.querySelectorAll('.discord-nav a');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === pathName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Verificar si el usuario está autenticado
+            const user = localStorage.getItem('discord_user');
+            if (user) {
+                const userInfo = JSON.parse(user);
+                document.getElementById('auth-info').style.display = 'flex';
+                document.getElementById('user-username').innerText = userInfo.username;
+                document.getElementById('user-avatar').src = `https://cdn.discordapp.com/avatars/${encodeURIComponent(userInfo.id)}/${encodeURIComponent(userInfo.avatar)}.png`;
+                document.getElementById('auth-buttons').style.display = 'none';
+            }
+        });
+
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

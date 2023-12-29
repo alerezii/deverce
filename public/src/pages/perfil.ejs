@@ -1,0 +1,131 @@
+<!-- Perfil.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<%= '/styles.css' %>">
+    <title>Deverce - Perfil</title>
+</head>
+<body>
+    <div class="discord-container">
+        <header class="discord-header">
+            <div id="welcome">
+                <i class="fas fa-code"></i>
+                <h1>Bienvenido a Deverce</h1>
+            </div>
+        </header>
+
+        <nav class="discord-nav">
+            <ul>
+                <li>
+                    <% if (user) { %>
+                        <div class="user-info">
+                            <div class="user-container">
+                                <img src="https://cdn.discordapp.com/avatars/<%= encodeURIComponent(user.id) %>/<%= encodeURIComponent(user.avatar) %>.png" alt="Avatar" class="user-avatar">
+                                <button class="user-username" onclick="toggleUserMenu()">☰ <%= user.username %></button>
+                            </div>
+                            <div class="user-menu" id="userMenu">
+                                <a href="/perfil">Ir al Perfil</a>
+                                <a href="/adquirir-membresia">Adquirir Membresía Dev+</a>
+                                <a href="/unirse-discord">Unirse a nuestro Discord</a>
+                                <a href="/logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </li>
+                <li><a href="/" class="home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/servicios" class="servicios"><i class="fas fa-cogs"></i> Servicios</a></li>
+                <li><a href="/portafolio" class="portafolio"><i class="fas fa-images"></i> Portafolio</a></li>
+                <li><a href="/blog" class="blog"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="/contacto" class="contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                <li id="auth-buttons">
+                    <% if (user) { %>
+                        <a href="/logout" class="login-button"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    <% } else { %>
+                        <a href="/auth/discord" class="login-button"><i class="fab fa-discord"></i> Iniciar sesión</a>
+                    <% } %>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="discord-content">
+            <div class="profile-section">
+                <h2>Perfil de <%= user.username %></h2>
+                <p>ID: <%= user.id %></p>
+                <img src="https://cdn.discordapp.com/avatars/<%= encodeURIComponent(user.id) %>/<%= encodeURIComponent(user.avatar) %>.png" alt="Avatar" class="profile-avatar">
+                
+                <!-- Puedes mostrar más información del perfil aquí -->
+
+                <% if (user && user.guilds) { %>
+                    <div class="user-servers">
+                        <h2>Servidores de <%= user.username %></h2>
+                        <div class="server-cards">
+                            <% let serverCount = 0; %>
+                            <% user.guilds.forEach(guild => { %>
+                                <% const hasManageGuildPermission = (guild.permissions & 0x00000020) === 0x00000020 %>
+                                <% if (hasManageGuildPermission) { %>
+                                    <% if (serverCount % 4 === 0) { %>
+                                        <div class="server-row">
+                                    <% } %>
+                                    <div class="server-card" onclick="toggleCard(this)">
+                                        <div class="service-info">
+                                            <% const iconURL = guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : 'https://cdn.discordapp.com/icons/1182313446126145536/1b7f4a8919368a65f5ba5e95e823fb84.png'; %>
+                                            <img src="<%= iconURL %>" alt="Server Icon" class="server-icon">
+                                            <h2><%= guild.name %></h2>
+                                            <button class="add-server-button" onclick="location.href='https://discord.com/api/oauth2/authorize?client_id=1189956465197338634&permissions=1926561655030&scope=bot&guild_id=<%=guild.id%>'">Añadir al Servidor</button>
+                                        </div>
+                                    </div>
+                                    <% if ((serverCount + 1) % 4 === 0 || (serverCount + 1) === user.guilds.length) { %>
+                                        </div>
+                                    <% } %>
+                                    <% serverCount++; %>
+                                <% } %>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <p>No se encontraron servidores.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <footer class="discord-footer">
+            <p>&copy; 2023 Deverce. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathName = window.location.pathname;
+            const navLinks = document.querySelectorAll('.discord-nav a');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === pathName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Verificar si el usuario está autenticado
+            const user = localStorage.getItem('discord_user');
+            if (user) {
+                const userInfo = JSON.parse(user);
+                document.getElementById('auth-info').style.display = 'flex';
+                document.getElementById('user-username').innerText = userInfo.username;
+                document.getElementById('user-avatar').src = `https://cdn.discordapp.com/avatars/${encodeURIComponent(userInfo.id)}/${encodeURIComponent(userInfo.avatar)}.png`;
+                document.getElementById('auth-buttons').style.display = 'none';
+            }
+        });
+
+        function toggleCard(card) {
+            card.classList.toggle('active');
+        }
+
+        function toggleUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

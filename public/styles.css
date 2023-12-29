@@ -1,0 +1,411 @@
+:root {
+    --primary-color: #e67e22;
+    --secondary-color: #2ecc71;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --accent-color: #e74c3c;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.discord-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.discord-nav a.active {
+    color: var(--primary-color);
+}
+
+.discord-header {
+    background-color: var(--primary-color);
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.discord-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.discord-nav {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.discord-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.discord-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-username {
+    margin: 0;
+}
+
+.user-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1;
+    top: 165px; /* Alinea el menú debajo del botón con un espacio de 10px */
+}
+
+.user-menu a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.user-menu a:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.user-menu.show {
+    display: block;
+}
+
+.profile-section p {
+    font-size: 13px;
+}
+
+/* Server Card */
+.server-card {
+    border: 1px solid #ddd; /* Borde para separar las server-card */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px;
+    width: 200px; /* Ajusta el ancho según tus preferencias */
+    display: inline-block;
+    vertical-align: top; /* Alinear las server-card en la parte superior */
+    text-align: center;
+    transition: transform 0.2s ease-in-out; /* Agrega una transición suave al hacer hover */
+}
+
+.server-card:hover {
+    transform: scale(1.05); /* Efecto de escala al hacer hover */
+}
+
+.server-row {
+    white-space: nowrap; /* Evita que las server-card se muevan a la siguiente línea */
+    overflow-x: auto; /* Agrega una barra de desplazamiento horizontal si hay demasiadas server-card */
+}
+
+.servers-cards {
+    margin-top: 20px;
+}
+
+.server-card h2 {
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.server-card.active {
+    transform: scale(1.05);
+}
+
+.add-server-button {
+    display: none;
+}
+
+.server-card.active .add-server-button {
+    display: block;
+    margin-top: 8px; /* Ajusta el margen según sea necesario */
+}
+
+/* Estilos adicionales para el layout de la nav */
+.discord-nav li {
+    display: flex;
+    margin: 0 15px;
+    align-items: center;
+}
+
+#auth-buttons {
+    margin-left: auto;
+}
+
+.discord-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.discord-nav a:hover {
+    color: var(--primary-color);
+}
+
+.discord-content {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Agrega esta línea para centrar el contenido */
+}
+
+.discord-content h2 {
+    margin-bottom: 20px; /* Ajusta el margen inferior según sea necesario */
+}
+
+.discord-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.discord-footer {
+    background-color: var(--primary-color);
+    padding: 20px 0;
+    text-align: center;
+    color: #fff;
+}
+
+/* Sección de héroe */
+.hero-section {
+    text-align: center;
+    padding: 50px;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.hero-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: var(--secondary-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--accent-color);
+}
+
+/* Sección "Conoce a Alejo y Gonza" */
+.about-section {
+    text-align: center;
+    padding: 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.about-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-text {
+    flex: 1;
+    text-align: left;
+}
+
+.about-text p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.about-image img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Catalogo */
+
+.service-card {
+    display: flex;
+    max-width: 800px; /* Ajusta según sea necesario */
+    margin: 20px auto; /* Centra las tarjetas */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.service-info {
+    flex: 1;
+    padding: 20px;
+}
+
+.service-info h2 {
+    margin-bottom: 10px;
+}
+
+.service-info p {
+    margin-bottom: 15px;
+}
+
+.service-info button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.service-info button:hover {
+    background-color: var(--accent-color);
+}
+
+.service-image {
+    flex: 1;
+    max-width: 200px;
+    max-height: 100px;
+    min-width: 200px;
+    min-height: 100px;
+    /* Agrega estilos para la imagen si es necesario */
+}
+
+.contact-service-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.contact-form {
+    margin-top: 20px;
+    flex: 1;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form label {
+    margin-bottom: 8px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.contact-form button {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: var(--accent-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.notification {
+    /* ... (tu estilo actual) */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.notification.show {
+    opacity: 1;
+}

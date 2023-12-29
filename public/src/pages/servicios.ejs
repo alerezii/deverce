@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<%= '/styles.css' %>">
+    
+    <title>Deverce - Servicios</title>
+</head>
+<body>
+    <div class="discord-container">
+        <header class="discord-header">
+            <div id="welcome">
+                <i class="fas fa-code"></i> <!-- Icono de Font Awesome -->
+                <h1>Bienvenido a Deverce</h1>
+            </div>
+        </header>
+
+        <nav class="discord-nav">
+            <ul>
+                <li>
+                    <% if (user) { %>
+                        <div class="user-info">
+                            <div class="user-container">
+                                <img src="https://cdn.discordapp.com/avatars/<%= encodeURIComponent(user.id) %>/<%= encodeURIComponent(user.avatar) %>.png" alt="Avatar" class="user-avatar">
+                                <button class="user-username" onclick="toggleUserMenu()">☰ <%= user.username %></button>
+                            </div>
+                            <div class="user-menu" id="userMenu">
+                                <a href="/perfil">Ir al Perfil</a>
+                                <a href="/adquirir-membresia">Adquirir Membresía Dev+</a>
+                                <a href="/unirse-discord">Unirse a nuestro Discord</a>
+                                <a href="/logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </li>                
+                <li><a href="/" class="home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/servicios" class="servicios"><i class="fas fa-cogs"></i> Servicios</a></li>
+                <li><a href="/portafolio" class="portafolio"><i class="fas fa-images"></i> Portafolio</a></li>
+                <li><a href="/blog" class="blog"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="/contacto" class="contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                <li id="auth-buttons">
+                    <% if (user) { %>
+                        <a href="/logout" class="login-button"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    <% } else { %>
+                        <a href="/auth/discord" class="login-button"><i class="fab fa-discord"></i> Iniciar sesión</a>
+                    <% } %>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="discord-content">
+            <h2>Nuestros Servicios</h2>
+        
+            <div class="service-card" onclick="toggleServiceInfo(this)">
+                <div class="service-info">
+                    <h2>Desarrollo de Software</h2>
+                    <p>Descripción: Ofrecemos servicios de desarrollo de software a medida para satisfacer las necesidades específicas de tu proyecto. Desde aplicaciones de escritorio hasta soluciones empresariales complejas.</p>
+                    <p>Precio: Consulta para obtener una cotización personalizada.</p>
+                    <button class="buy-button" onclick="buyService('Desarrollo de Software')">Adquirir</button>
+                </div>
+                <div class="service-image">
+                    <img src="https://i.pinimg.com/564x/59/ef/8f/59ef8f4905086ae3fb06ae0c13cad41e.jpg">
+                </div>
+            </div>
+            
+            <div class="service-card" onclick="toggleServiceInfo(this)">
+                <div class="service-info">
+                    <h2>Desarrollo Web</h2>
+                    <p>Descripción: Ofrecemos servicios de desarrollo web a medida para satisfacer las necesidades específicas de tu proyecto. Desde páginas web basicas hasta las mas complejas.</p>
+                    <p>Precio: Consulta para obtener una cotización personalizada.</p>
+                    <button class="buy-button" onclick="buyService('Desarrollo de Software')">Adquirir</button>
+                </div>
+                <div class="service-image">
+                    <img src="https://i.pinimg.com/564x/b4/1a/8a/b41a8acccf85813efcddf1d93061ecc6.jpg">
+                </div>
+            </div>
+
+            <div class="service-card" onclick="toggleServiceInfo(this)">
+                <div class="service-info">
+                    <h2>Desarrollo en General</h2>
+                    <p>Descripción: Brindamos servicios integrales de desarrollo, abarcando una amplia gama de tecnologías y plataformas. Desde aplicaciones personalizadas hasta soluciones empresariales, nuestro enfoque versátil se adapta a las necesidades únicas de tu proyecto.</p>
+                    <p>Precio: Consulta para obtener una cotización personalizada.</p>
+                    <button class="buy-button" onclick="buyService('Desarrollo de Software')">Adquirir</button>
+                </div>
+                <div class="service-image">
+                    <img src="https://i.pinimg.com/564x/34/00/4e/34004e637420b3e538baa3e87a5c9c45.jpg">
+                </div>
+            </div>
+        </section>        
+
+        <footer class="discord-footer">
+            <p>&copy; 2023 Deverce. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathName = window.location.pathname;
+            const navLinks = document.querySelectorAll('.discord-nav a');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === pathName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Verificar si el usuario está autenticado
+            const user = localStorage.getItem('discord_user');
+            if (user) {
+                const userInfo = JSON.parse(user);
+                document.getElementById('auth-info').style.display = 'flex'; // Muestra el contenedor de información del usuario
+                document.getElementById('user-username').innerText = userInfo.username;
+                document.getElementById('user-avatar').src = `https://cdn.discordapp.com/avatars/${encodeURIComponent(userInfo.id)}/${encodeURIComponent(userInfo.avatar)}.png`;
+                document.getElementById('auth-buttons').style.display = 'none'; // Oculta los botones de inicio/cierre de sesión
+            }
+        });
+    </script>
+    <script>
+        let openService = null;
+    
+        function toggleServiceInfo(card) {
+            const serviceInfo = card.querySelector('.service-info');
+            if (openService && openService !== serviceInfo) {
+                openService.classList.remove('show');
+            }
+            serviceInfo.classList.toggle('show');
+            openService = serviceInfo;
+        }
+    
+        function buyService(serviceName) {
+            // Aquí puedes implementar la lógica para procesar la compra con PayPal
+            console.log(`Compra realizada para: ${serviceName}`);
+        }
+    </script>    
+</body>
+</html>

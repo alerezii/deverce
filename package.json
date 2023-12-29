@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "page": "^1.11.6",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

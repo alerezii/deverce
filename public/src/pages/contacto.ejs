@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<%= '/styles.css' %>">
+    <title>Deverce - Contacto</title>
+</head>
+<body>
+    <div class="discord-container">
+        <header class="discord-header">
+            <div id="welcome">
+                <i class="fas fa-code"></i> <!-- Icono de Font Awesome -->
+                <h1>Bienvenido a Deverce</h1>
+            </div>
+        </header>
+
+        <nav class="discord-nav">
+            <ul>
+                <li>
+                    <% if (user) { %>
+                        <div class="user-info">
+                            <div class="user-container">
+                                <img src="https://cdn.discordapp.com/avatars/<%= encodeURIComponent(user.id) %>/<%= encodeURIComponent(user.avatar) %>.png" alt="Avatar" class="user-avatar">
+                                <button class="user-username" onclick="toggleUserMenu()">☰ <%= user.username %></button>
+                            </div>
+                            <div class="user-menu" id="userMenu">
+                                <a href="/perfil">Ir al Perfil</a>
+                                <a href="/adquirir-membresia">Adquirir Membresía Dev+</a>
+                                <a href="/unirse-discord">Unirse a nuestro Discord</a>
+                                <a href="/logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </li>                
+                <li><a href="/" class="home"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="/servicios" class="servicios"><i class="fas fa-cogs"></i> Servicios</a></li>
+                <li><a href="/portafolio" class="portafolio"><i class="fas fa-images"></i> Portafolio</a></li>
+                <li><a href="/blog" class="blog"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="/contacto" class="contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+                <li id="auth-buttons">
+                    <% if (user) { %>
+                        <a href="/logout" class="login-button"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                    <% } else { %>
+                        <a href="/auth/discord" class="login-button"><i class="fab fa-discord"></i> Iniciar sesión</a>
+                    <% } %>
+                </li>
+            </ul>
+        </nav>
+
+        <section class="discord-content">
+            <h2>Contacto</h2>
+        
+            <div class="service-card contact-service-card">
+                <div class="contact-info">
+                    <h3>Información de Contacto</h3>
+                    <p>¡Estamos encantados de saber de ti! Si tienes alguna pregunta, comentario o simplemente quieres saludar, no dudes en ponerte en contacto con nosotros.</p>
+                    <p>Correo Electrónico: info@deverce.com</p>
+                    <p>Teléfono: +123 456 789</p>
+                </div>
+        
+                <div class="contact-form">
+                    <h3>Formulario de Contacto</h3>
+                    <!-- Asegúrate de que el formulario tenga el atributo onsubmit correctamente -->
+                    <form id="contactForm" onsubmit="enviarMensaje(event)">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+        
+                        <label for="correo">Correo Electrónico:</label>
+                        <input type="email" id="correo" name="correo" required>
+        
+                        <label for="mensaje">Mensaje:</label>
+                        <textarea id="mensaje" name="mensaje" required></textarea>
+        
+                        <button type="submit">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+                
+
+        <footer class="discord-footer">
+            <p>&copy; 2023 Deverce. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        function enviarMensaje(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe realmente
+
+            // Aquí puedes agregar la lógica para simular el envío del mensaje
+            // Por ejemplo, podrías mostrar una notificación y reiniciar el formulario
+            mostrarNotificacion('¡Mensaje Enviado!', 'success');
+            reiniciarFormulario();
+        }
+
+        function mostrarNotificacion(mensaje, tipo) {
+            const notificacion = document.createElement('div');
+            notificacion.className = `notification ${tipo}`;
+            notificacion.textContent = mensaje;
+
+            document.body.appendChild(notificacion);
+
+            // Agrega la clase 'show' para mostrar la notificación
+            notificacion.classList.add('show');
+
+            // Después de un tiempo, elimina la notificación
+            setTimeout(() => {
+                document.body.removeChild(notificacion);
+            }, 3000); // La notificación desaparecerá después de 3 segundos (ajusta según tus necesidades)
+        }
+
+        function reiniciarFormulario() {
+            const formulario = document.getElementById('contactForm');
+            formulario.reset();
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathName = window.location.pathname;
+            const navLinks = document.querySelectorAll('.discord-nav a');
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === pathName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Verificar si el usuario está autenticado
+            const user = localStorage.getItem('discord_user');
+            if (user) {
+                const userInfo = JSON.parse(user);
+                document.getElementById('auth-info').style.display = 'flex'; // Muestra el contenedor de información del usuario
+                document.getElementById('user-username').innerText = userInfo.username;
+                document.getElementById('user-avatar').src = `https://cdn.discordapp.com/avatars/${encodeURIComponent(userInfo.id)}/${encodeURIComponent(userInfo.avatar)}.png`;
+                document.getElementById('auth-buttons').style.display = 'none'; // Oculta los botones de inicio/cierre de sesión
+            }
+        });
+    </script>
+</body>
+</html>
